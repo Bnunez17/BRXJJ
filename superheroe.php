@@ -28,6 +28,20 @@ if (!file_exists($dataFile)) {
 $superheroes = json_decode(file_get_contents($dataFile), true) ?? [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (
+    empty($input['Nombre']) ||
+    !isset($input['Peso']) ||
+    !isset($input['Altura']) ||
+    !isset($input['Poder'])
+) {
+    http_response_code(400);
+    echo json_encode([
+        'error' => 'Faltan campos obligatorios: Nombre, Peso, Altura o Poder'
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+
     $newHero = [
         "id" => count($superheroes) + 1,
         "Nombre" => $input['Nombre'] ?? 'Desconocido',
