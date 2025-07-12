@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: API de Superhéroes
+  title: API de Superheroe
   version: 1.0.0
   description: API para gestionar superhéroes y obtener una lista paginada desde un archivo PHP.
 
 servers:
-  - url: http://localhost/Superheroes
+  - url: http://localhost/Superheroe
 
 paths:
   /superheroe.php:
