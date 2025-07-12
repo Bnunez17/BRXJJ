@@ -5,7 +5,7 @@ info:
   description: API para gestionar superhéroes y obtener una lista paginada desde un archivo PHP.
 
 servers:
-  - url: http://localhost/api/superheroe.php
+  - url: http://localhost/superheroe.php
 
 
 paths:
