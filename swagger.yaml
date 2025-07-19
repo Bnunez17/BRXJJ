@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: API Superhéroes
   version: 1.0.0
@@ -103,3 +103,102 @@ paths:
                       type: string
                       format: date-time
                       example: "2025-07-11T01:14:28+00:00"
+
+    delete:
+      summary: Eliminar un superhéroe por ID desde el cuerpo (body)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  example: 34
+      responses:
+        '200':
+          description: Superhéroe eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Superhéroe eliminado correctamente
+        '400':
+          description: ID inválido o no proporcionado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Solicitud inválida: ID no válido o no  proporcionado"
+        '404':
+          description: Superhéroe no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Superhéroe con ID 34 no encontrado
+
+  /superheroe.php/media:
+    post:
+      summary: Obtener tweets recientes relacionados con una consulta
+      description: Llama a la API de Twitter para obtener los tweets más recientes relacionados con un término de búsqueda.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: "AAAAAAAAAAAAAAAAAAAAAC%2Fo2AEAAAAAvJyXjeidF541YfJOIUZK8bLG2oU%3Dqo0DxtpPTx7FUYd3G172SEDOZ4EoSGV6bxcd1XLo7Am95Xq4P8"
+                query:
+                  type: string
+                  example: "from:Marvel"
+      responses:
+        '200':
+          description: Lista de tweets obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  query:
+                    type: string
+                    example: "from:Marvel"
+                  tweets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "1234567890"
+                        text:
+                          type: string
+                          example: "Esto es un tweet de prueba."
+                        author:
+                          type: object
+                          properties:
+                            username:
+                              type: string
+                              example: "usuario123"
+                            name:
+                              type: string
+                              example: "Nombre del usuario"
+        '400':
+          description: Token no proporcionado
+        '500':
+          description: Error al conectarse con la API de Twitter
