@@ -2,7 +2,19 @@ openapi: 3.0.3
 info:
   title: API Superhéroes
   version: 1.0.0
-  description: Documentación de la API para gestionar superhéroes
+  description: |
+    Plantilla  de Open Api 3.0.4 para consultar, crear y eliminar superheroes.
+     
+     ### Equipo 1
+    - Brandon Arcos
+    - Alberto Linan
+    - Juan Hernandez
+    - Roberto Alvarez
+    
+    [superheroes.git](https://github.com/Bnunez17/BRXJJ)
+servers:
+  - url: http://localhost/Superheroes
+    description: Apache XAMPP (htdocs/Superheroes)
 
 paths:
   /superheroe.php:
@@ -66,58 +78,74 @@ paths:
                         example: "2025-07-11T01:14:28+00:00"
 
     get:
-      summary: Obtener superhéroes o uno específico
+      summary: Obtener superhéroes paginados
       parameters:
         - in: query
-          name: id
+          name: page
+          required: false
+          description: Número de página (solo 1 o 2)
           schema:
             type: integer
-          required: false
-          description: ID del superhéroe (opcional para obtener todos)
+            default: 1
       responses:
         '200':
-          description: Lista o detalle de superhéroes
+          description: Lista de superhéroes paginada
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 40
-                    Nombre:
-                      type: string
-                      example: Infernox
-                    Peso:
-                      type: number
-                      example: 90
-                    Altura:
-                      type: number
-                      example: 1.85
-                    Poder:
-                      type: number
-                      example: 95
-                    created:
-                      type: string
-                      format: date-time
-                      example: "2025-07-11T01:14:28+00:00"
+                type: object
+                properties:
+                  page:
+                    type: integer
+                    example: 1
+                  per_page:
+                    type: integer
+                    example: 10
+                  total:
+                    type: integer
+                    example: 12
+                  total_pages:
+                    type: integer
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 4
+                        Nombre:
+                          type: string
+                          example: "Voltrax"
+                        Peso:
+                          type: number
+                          example: 80
+                        Altura:
+                          type: number
+                          example: 1.9
+                        Poder:
+                          type: number
+                          example: 83
+                        created:
+                          type: string
+                          format: date-time
+                          example: "2025-06-23T23:00:28+00:00"
 
     delete:
-      summary: Eliminar un superhéroe por ID desde el cuerpo (body)
+      summary: Eliminar un superhéroe por ID
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - id
               properties:
                 id:
                   type: integer
-                  example: 34
+                  example: 1
+                  
+                  
       responses:
         '200':
           description: Superhéroe eliminado exitosamente
@@ -138,17 +166,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Solicitud inválida: ID no válido o no  proporcionado"
-        '404':
-          description: Superhéroe no encontrado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Superhéroe con ID 34 no encontrado
+                    example: "Solicitud inválida: ID no válido o no proporcionado"
 
   /superheroe.php/media:
     post:
